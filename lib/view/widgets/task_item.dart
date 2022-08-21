@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:todo_route/core/constant/my_colors.dart';
+import 'package:todo_route/models/task_model.dart';
 
 class TaskItem extends StatelessWidget {
-  const TaskItem({Key? key}) : super(key: key);
+   TaskItem(this.taskModel, {Key? key}) : super(key: key);
+
+
+
+TaskModel taskModel;
 
   @override
   Widget build(BuildContext context) {
@@ -27,11 +32,11 @@ class TaskItem extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  'Task Title',
+                  '${taskModel.title}',
                   style: Theme.of(context).textTheme.headline3,
                 ),
                 Text(
-                  'Task Title',
+                  '${taskModel.description}',
                   style: Theme.of(context).textTheme.subtitle1,
                 )
               ],

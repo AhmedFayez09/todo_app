@@ -5,7 +5,7 @@ import 'package:todo_route/view/screens/tasks_screen.dart';
 import '../widgets/add_task_bottom_sheet.dart';
 
 class MainScreen extends StatefulWidget {
-  MainScreen({Key? key}) : super(key: key);
+  const MainScreen({Key? key}) : super(key: key);
 
   @override
   State<MainScreen> createState() => _MainScreenState();
@@ -15,13 +15,12 @@ class _MainScreenState extends State<MainScreen> {
   int currentIndex = 0;
 
   List<Widget> tabs = [
-    const TasksScreen(),
+     TasksScreen(),
     const SettingsScreen(),
   ];
 
   @override
   Widget build(BuildContext context) {
-    Size size =MediaQuery.of(context).size;
     return Scaffold(
       resizeToAvoidBottomInset: true,
       appBar: PreferredSize(
@@ -94,21 +93,8 @@ class _MainScreenState extends State<MainScreen> {
               padding: EdgeInsets.only(
                   top: MediaQuery.of(context).viewInsets.top,
                   bottom: MediaQuery.of(context).viewInsets.bottom),
-              child: AddTaskBottomSheet());
+              child: const AddTaskBottomSheet());
         },
         isScrollControlled: true);
-  }
-}
-
-class BackGroundScreen extends StatelessWidget {
-  const BackGroundScreen({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        Container(),
-      ],
-    );
   }
 }

@@ -35,6 +35,7 @@ class _AddTaskBottomSheetState extends State<AddTaskBottomSheet> {
             child: Column(
               children: [
                 TextFormField(
+                  
                   onChanged: (text) {
                     title = text;
                   },
@@ -104,7 +105,9 @@ class _AddTaskBottomSheetState extends State<AddTaskBottomSheet> {
                 TaskModel task = TaskModel(
                   title: title,
                   description: desc,
-                  selectedDate: selectedDate.microsecondsSinceEpoch,
+                  selectedDate: DateUtils.dateOnly(selectedDate)
+                  .microsecondsSinceEpoch,
+                  isDone: false
                 );
                 AddTaskToFireStore(task).then((value) {
                   showLoading(context, 'Loading....');
