@@ -1,9 +1,11 @@
 import 'package:calendar_timeline/calendar_timeline.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:todo_route/core/constant/my_colors.dart';
 import 'package:todo_route/logic/firebase_firestore.dart';
 import 'package:todo_route/models/task_model.dart';
+import '../../logic/proviser.dart';
 import '../widgets/task_item.dart';
 
 // ignore: must_be_immutable
@@ -19,6 +21,7 @@ class _TasksScreenState extends State<TasksScreen> {
 
   @override
   Widget build(BuildContext context) {
+    var provider = Provider.of<App_Provider>(context);
     return Container(
       child: Column(
         children: [
@@ -29,15 +32,16 @@ class _TasksScreenState extends State<TasksScreen> {
             // ignore: avoid_print
             onDateSelected: (date) {
               setState(() {
-              selectedDate = date;
-                
+                selectedDate = date;
               });
             },
             leftMargin: 20,
             monthColor: Colors.blueGrey,
             dayColor: Colors.blueGrey,
             activeDayColor: standeredColor,
-            activeBackgroundDayColor: whiteColor,
+            activeBackgroundDayColor: provider.themeMode == ThemeMode.light
+                ? whiteColor
+                : lightmainbackgroundDark,
             dotsColor: standeredColor,
             selectableDayPredicate: (date) => true,
             // date.day != 23,
@@ -55,7 +59,7 @@ class _TasksScreenState extends State<TasksScreen> {
                 if (snapShot.hasError) {
                   return const Text('SomeThing went wrong');
                 }
-
+//make this in provider
                 List<TaskModel> Tasks =
                     snapShot.data!.docs.map((e) => e.data()).toList();
                 return ListView.builder(

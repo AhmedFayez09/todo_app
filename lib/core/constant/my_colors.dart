@@ -11,3 +11,4 @@ Color hiteTextColoe = const  Color(0xffA9A9A9);
 Color standeredColorDark = const Color(0xff5D9CEC);
 Color mainbackgroundColorDark = const Color(0xff060E1E);
 Color hiteTextColorDark = const  Color(0xffCDCACA);
+Color lightmainbackgroundDark = const Color(0xff141922);

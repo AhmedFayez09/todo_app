@@ -35,3 +35,23 @@ Stream<QuerySnapshot<TaskModel>> GetTaskFromFirebseFireStoreUseingStreeming  (Da
 
   return collection.where('selectedDate', isEqualTo:DateUtils.dateOnly(time) .microsecondsSinceEpoch).snapshots();
 }
+
+
+Future<void>  updateFromFirevase(TaskModel task){
+var collection = getDateFromFirebase();
+ return collection.doc(task.id).update(task.toJson());
+
+
+}
+
+
+
+
+
+
+Future<void>  deleteFromFirevase(TaskModel task){
+var collection = getDateFromFirebase();
+ return collection.doc(task.id).delete();
+
+
+}
