@@ -43,10 +43,10 @@ class MyThemeData {
         fontWeight: FontWeight.bold,
         color: Colors.black,
       ),
-      subtitle2:  TextStyle(
+      subtitle2:const  TextStyle(
         fontSize: 20,
         
-        color:hiteTextColoe,
+        color:Colors.black,
       ),
       // title Add
       headline4: TextStyle(

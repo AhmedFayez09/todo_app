@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/material.dart';
 import 'package:todo_route/models/task_model.dart';
 
 CollectionReference<TaskModel> getDateFromFirebase() {
@@ -21,5 +22,16 @@ Future AddTaskToFireStore(TaskModel task) {
   var doc = collectiom.doc();
   task.id = doc.id;
 
-return  doc.set(task);
+  return doc.set(task); 
+}
+
+Future<QuerySnapshot<TaskModel>> GetTaskFromFirebseFireStore  (DateTime time) async {
+  var collection = await getDateFromFirebase();
+
+  return collection.where('selectedDate', isEqualTo:DateUtils.dateOnly(time) .microsecondsSinceEpoch).get();
+}
+Stream<QuerySnapshot<TaskModel>> GetTaskFromFirebseFireStoreUseingStreeming  (DateTime time)  {
+  var collection =  getDateFromFirebase();
+
+  return collection.where('selectedDate', isEqualTo:DateUtils.dateOnly(time) .microsecondsSinceEpoch).snapshots();
 }

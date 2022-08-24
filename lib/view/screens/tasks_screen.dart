@@ -1,11 +1,21 @@
 import 'package:calendar_timeline/calendar_timeline.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:todo_route/core/constant/my_colors.dart';
-
+import 'package:todo_route/logic/firebase_firestore.dart';
+import 'package:todo_route/models/task_model.dart';
 import '../widgets/task_item.dart';
 
-class TasksScreen extends StatelessWidget {
-  const TasksScreen({Key? key}) : super(key: key);
+// ignore: must_be_immutable
+class TasksScreen extends StatefulWidget {
+  TasksScreen({Key? key}) : super(key: key);
+
+  @override
+  State<TasksScreen> createState() => _TasksScreenState();
+}
+
+class _TasksScreenState extends State<TasksScreen> {
+  var selectedDate = DateTime.now();
 
   @override
   Widget build(BuildContext context) {
@@ -13,10 +23,16 @@ class TasksScreen extends StatelessWidget {
       child: Column(
         children: [
           CalendarTimeline(
-            initialDate: DateTime.now(),
-            firstDate:DateTime.now().subtract(const Duration(days: 365)),
+            initialDate: selectedDate,
+            firstDate: DateTime.now().subtract(const Duration(days: 365)),
             lastDate: DateTime.now().add(const Duration(days: 365)),
-            onDateSelected: (date) => print(date),
+            // ignore: avoid_print
+            onDateSelected: (date) {
+              setState(() {
+              selectedDate = date;
+                
+              });
+            },
             leftMargin: 20,
             monthColor: Colors.blueGrey,
             dayColor: Colors.blueGrey,
@@ -28,12 +44,27 @@ class TasksScreen extends StatelessWidget {
             locale: 'en_ISO',
           ),
           Expanded(
-            child: ListView.builder(
-              itemCount: 50,
-              
-              itemBuilder: (c,i){
-              return TaskItem();
-            }),
+            child: StreamBuilder<QuerySnapshot<TaskModel>>(
+              stream: GetTaskFromFirebseFireStoreUseingStreeming(selectedDate),
+              builder: (c, snapShot) {
+                if (snapShot.connectionState == ConnectionState.waiting) {
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
+                if (snapShot.hasError) {
+                  return const Text('SomeThing went wrong');
+                }
+
+                List<TaskModel> Tasks =
+                    snapShot.data!.docs.map((e) => e.data()).toList();
+                return ListView.builder(
+                    itemCount: Tasks.length,
+                    itemBuilder: (c, i) {
+                      return TaskItem(Tasks[i]);
+                    });
+              },
+            ),
           )
         ],
       ),
